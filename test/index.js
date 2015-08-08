@@ -92,8 +92,32 @@ describe('Code ship ci api test suite', function () {
     var thrower = function () {
       codeShip.project(null,function (response) {});
     }
-     thrower.should.throw();
+    thrower.should.throw();
   });
+
+  it('builds should return valid info', function(done) {
+
+    var codeShip = new CodeShip({
+      apiKey : process.env.API_KEY
+    });
+    codeShip.builds(54507,function (response) {
+      response.should.be.a.Object;
+      response.builds.should.be.a.Array;
+      done();
+    })
+  });
+
+  it('builds with no projectId should fail', function() {
+
+    var codeShip = new CodeShip({
+      apiKey : process.env.API_KEY
+    });
+    var thrower = function () {
+      codeShip.builds(null,function (response) {});
+    }
+    thrower.should.throw();
+  });
+
   it('buildRestart with no buildId should fail', function() {
 
     var codeShip = new CodeShip({
